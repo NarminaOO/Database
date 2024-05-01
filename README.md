@@ -3,6 +3,8 @@ This project allows to manage a SQLite database which contains the names of peop
 
 ![image](https://github.com/NarminaOO/Database/assets/149943881/ffcaf479-7c90-4918-affc-03223f83f107)
 
+
+
 ## Features
 + **Add Person:** Add a new person to the database.
 
@@ -131,14 +133,109 @@ Here's what it does:
     connect(removeButton, &QPushButton::clicked, this, &dbVisual::removePerson);
     connect(removeAllButton, &QPushButton::clicked, this, &dbVisual::removeAllPeople);
     connect(checkButton, &QPushButton::clicked, this, &dbVisual::checkPerson);
-  ```
+  ``` 
+#### Destructor `dbVisual::~dbVisual`: 
+```c++
+dbVisual::~dbVisual() {
+    delete manager;
+}
+```
+This is the destructor for the `dbVisual` class. It deallocates any resources acquired by the dbmanager object.
 
+#### Slot Functions:
+These are functions that are called when certain actions occur in the GUI.
+
++ `showData()`:
+```c++
+  void dbVisual::showData() {
+    model->select();
+}
+```
+Selects and displays data from the `"people"` table in the table view.
++ `addPerson()`:
+```c++
+  void dbVisual::addPerson() {
+    QString name = nameLineEdit->text(); // Gets name from line edit
+    if (!name.isEmpty()) { // Checks if name is not empty
+        if (manager->addPerson(name)) { // Attempts to add person to database
+            QMessageBox::information(this, "Success", "Person added successfully"); // Displays success message
+            nameLineEdit->clear(); // Clears line edit
+        } else {
+            QMessageBox::warning(this, "Error", "Failed to add person"); // Displays error message
+        }
+    } else {
+        QMessageBox::warning(this, "Error", "Please, enter the name"); // Displays error message for empty name
+    }
+}
+```
+  Adds a person to the database using the name entered in the line edit.
   
-Destructor dbVisual::~dbVisual: This is the destructor for the dbVisual class. It deallocates any resources acquired by the dbmanager object.
-Slot Functions: These are functions that are called when certain actions occur in the GUI.
-showData(): Selects and displays data from the "people" table in the table view.
-addPerson(): Adds a person to the database using the name entered in the line edit.
-removePerson(): Removes a person from the database based on the name entered in the line edit.
-removeAllPeople(): Removes all people from the database.
-checkPerson(): Checks if a person with the given name exists in the database.
-Error Handling: If a user action fails (e.g., adding a person fails due to an empty name or a person not existing in 
++ `removePerson()`:
+```c++
+  void dbVisual::removePerson() {
+    QString name = nameLineEdit->text(); // Gets name from line edit
+    if (!name.isEmpty()) { // Checks if name is not empty
+        if (manager->removePerson(name)) { // Attempts to remove person from database
+            QMessageBox::information(this, "Success", "Person removed successfully"); // Displays success message
+        } else {
+            QMessageBox::warning(this, "Error", "Failed to remove person"); // Displays error message
+        }
+    } else {
+        QMessageBox::warning(this, "Error", "Please, enter the name"); // Displays error message for empty name
+    }
+}
+```
+  Removes a person from the database based on the name entered in the line edit.
++ `removeAllPeople()`:
+```c++
+ void dbVisual::removeAllPeople() {
+    if (manager->removeAll()) { // Attempts to remove all people from database
+        QMessageBox::information(this, "Success", "All people removed successfully"); // Displays success message
+    } else {
+        QMessageBox::warning(this, "Error", "Failed to remove all people"); // Displays error message
+    }
+}
+```
+  Removes all people from the database.
++ `checkPerson()`:
+```c++
+  void dbVisual::checkPerson() {
+    QString name = nameLineEdit->text(); // Gets name from line edit
+    if (!name.isEmpty()) { // Checks if name is not empty
+        if (manager->personExists(name)) { // Checks if person exists in database
+            QMessageBox::information(this, "Success", "Person exists"); // Displays success message
+        } else {
+            QMessageBox::warning(this, "Error", "Person doesn't exist"); // Displays error message
+        }
+    } else {
+        QMessageBox::warning(this, "Error", "Please, enter the name"); // Displays error message for empty name
+    }
+}
+```
+  Checks if a person with the given name exists in the database.
+
+
+#### Error Handling: 
+Error Handling: If a user action fails (e.g., adding a person fails due to an empty name or a person not existing in the database), error messages are displayed using `QMessageBox`
+
+### in main.cpp
+```c++
+#include <QApplication>
+#include "dbvisual.h"
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+    dbVisual window;
+    window.show();
+
+    return app.exec();
+}
+```
+This main function sets up the Qt application, creates an object of the `dbVisual` class, displays the window, and runs the application.
+
+
+## How to use 
+1. Clone the repository.
+2. Download the database file and make sure that your code has a correct path to it.
+3. Open the project in Qt Creator or your preferred IDE.
+4. Build and run the project.
+ 

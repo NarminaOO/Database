@@ -2,7 +2,7 @@
 This project allows to manage a SQLite database which contains the names of people. It provides functionalities to add, remove, check, and display people's information stored in the database.
 
 ![image](https://github.com/NarminaOO/Database/assets/149943881/ffcaf479-7c90-4918-affc-03223f83f107)
-
+![image2](https://github.com/NarminaOO/Database/assets/149943881/fdab75fb-9940-4106-9ac2-d0fbb080a2ef)
 
 
 ## Features
@@ -216,7 +216,7 @@ Selects and displays data from the `"people"` table in the table view.
 
 
 #### Error Handling: 
-Error Handling: If a user action fails (e.g., adding a person fails due to an empty name or a person not existing in the database), error messages are displayed using `QMessageBox`
+If a user action fails (e.g., adding a person fails due to an empty name or a person not existing in the database), error messages are displayed using `QMessageBox`
 
 ### in main.cpp
 ```c++

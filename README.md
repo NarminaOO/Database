@@ -62,4 +62,83 @@ This project allows to manage a SQLite database which contains the names of peop
 
 **Destructor** (`dbmanager::~dbmanager()`):
 * This destructor ensures that the database connection is closed when the `dbmanager` object is destroyed.
+
+### in dbVisual.cpp
+#### Header Inclusion:
+```c++
+#include "dbvisual.h"
+```
+
+The code includes the header file `"dbvisual.h"`, which contains declarations necessary for the `dbVisual` class.
+#### Constructor `dbVisual::dbVisual`: 
+This is the constructor for the `dbVisual` class. It initializes the GUI components and sets up the initial appearance and behavior of the window.
+Here's what it does:
+* Initializes a `dbmanager` object `manager` with the path to a SQLite database file.
+  ```c++
+  manager = new dbmanager("C:/Users/Narmina/Documents/SQL/SQLite/people.db");
+  ```
+* Sets the font for the application.
+  ```c++
+    QFont font("arial"); 
+    font.setPointSize(10);
+    QApplication::setFont(font);
+  ```
+* Sets the window title and minimum size.
+  ```c++
+    setWindowTitle("Manage People"); // Sets window title
+    setMinimumSize(500, 400); // Sets minimum window size
+  ```
+* Creates various GUI elements such as line edits, buttons, and a table view.
+  ```c++
+    nameLineEdit = new QLineEdit(this); // Creates line edit for entering names
+    nameLineEdit->setGeometry(20, 20, 300, 40);
+
+    addButton = new QPushButton("Add Person", this); // Creates button for adding a person
+    addButton->setGeometry(20, 80, 150, 40);
+    addButton->setStyleSheet("background-color: lightBlue");
+
+    removeButton = new QPushButton("Remove Person", this); // Creates button for removing a person
+    removeButton->setGeometry(190, 80, 150, 40);
+    removeButton->setStyleSheet("background-color: lightGreen");
+
+    removeAllButton = new QPushButton("Remove All People", this); // Creates button for removing all people
+    removeAllButton->setGeometry(360, 80, 150, 40);
+    removeAllButton->setStyleSheet("background-color: lightCoral");
+
+    checkButton = new QPushButton("Check Person", this); // Creates button for checking if a person exists
+    checkButton->setGeometry(20, 140, 150, 40);
+    checkButton->setStyleSheet("background-color: Yellow");
+
+    showButton = new QPushButton("Show", this); // Creates button for showing data
+    showButton->setGeometry(190, 140, 150, 40);
+    showButton->setStyleSheet("background-color: Pink");
+
+    tableView = new QTableView(this); // Creates table view
+    int tableSize = 300;
+    tableView->setGeometry(20, 200, tableSize, tableSize);
+  ```
+* Initializes a `QSqlTableModel` object `model` and associates it with the `"people"` table from the SQLite database.
+  ```c++
+    model = new QSqlTableModel(this); 
+    model->setTable("people"); 
+    model->select(); // Selects data from the table
+    tableView->setModel(model); // Sets model for table view
+  ```
+* Connects various buttons to their respective slots (functions) using the `connect` function.
+  ```c++
+    connect(showButton, &QPushButton::clicked, this, &dbVisual::showData);
+    connect(addButton, &QPushButton::clicked, this, &dbVisual::addPerson);
+    connect(removeButton, &QPushButton::clicked, this, &dbVisual::removePerson);
+    connect(removeAllButton, &QPushButton::clicked, this, &dbVisual::removeAllPeople);
+    connect(checkButton, &QPushButton::clicked, this, &dbVisual::checkPerson);
+  ```
+
   
+Destructor dbVisual::~dbVisual: This is the destructor for the dbVisual class. It deallocates any resources acquired by the dbmanager object.
+Slot Functions: These are functions that are called when certain actions occur in the GUI.
+showData(): Selects and displays data from the "people" table in the table view.
+addPerson(): Adds a person to the database using the name entered in the line edit.
+removePerson(): Removes a person from the database based on the name entered in the line edit.
+removeAllPeople(): Removes all people from the database.
+checkPerson(): Checks if a person with the given name exists in the database.
+Error Handling: If a user action fails (e.g., adding a person fails due to an empty name or a person not existing in 

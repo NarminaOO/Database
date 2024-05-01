@@ -1,4 +1,4 @@
-#include "dbmanager.h"
+#include "headers\dbmanager.h"
 
 dbmanager::dbmanager(const QString& path)
 {

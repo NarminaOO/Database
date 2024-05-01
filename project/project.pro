@@ -10,15 +10,13 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    dbmanager.cpp \
-    dbvisual.cpp \
-    main.cpp \
-    mainwindow.cpp
+    sources\dbmanager.cpp \
+    sources\dbvisual.cpp \
+    sources\main.cpp \
 
 HEADERS += \
-    dbmanager.h \
-    dbvisual.h \
-    mainwindow.h
+    headers\dbmanager.h \
+    headers\dbvisual.h \
 
 
 # Default rules for deployment.

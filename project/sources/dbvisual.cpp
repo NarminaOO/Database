@@ -1,4 +1,4 @@
-#include "dbvisual.h"
+#include "headers\dbvisual.h"
 
 dbVisual::dbVisual(QWidget *parent) : QWidget(parent) {
     manager = new dbmanager("C:/Users/Narmina/Documents/SQL/SQLite/people.db");
